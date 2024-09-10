@@ -7,7 +7,7 @@ namespace CustomersUI.Controllers
     public class CustomersController : Controller
     {
         private readonly HttpClient httpClient;
-        private readonly string _urlAPI = "";
+        private readonly string _urlAPI = "https://localhost:7093/api/customers";
 
         public CustomersController(ILogger<CustomersController> logger)
         {
