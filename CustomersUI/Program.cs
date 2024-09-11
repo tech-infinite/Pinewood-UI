@@ -1,9 +1,20 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddMvc().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+
+builder.Services.AddHttpClient("CustomerAPI", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7093/api/Customers"); // Replace with your API's base URL
+});
+
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -22,6 +33,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Customers}/{action=Index}/{id?}");
+
 
 app.Run();
