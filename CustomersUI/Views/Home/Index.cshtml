@@ -8,9 +8,8 @@
             <th>Customer ID</th>
             <th>Name</th>
             <th>Address</th>
-            <th>Phone</th>
             <th>Email</th>
-
+            <th>Phone</th>
         </tr>
     </thead>
     <tbody>
@@ -22,9 +21,11 @@
                 <td>@customer.Address</td>
                 <td>@customer.Email</td>
                 <td>@customer.Phone</td>
+            
+
                 <td>
-                    <a asp-action="Edit" asp-route-id="@customer.CustomerID">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@customer.CustomerID">Delete</a>
+                    <a asp-action="Edit" asp-route-customerID="@customer.CustomerID">Edit</a> |
+                    <a asp-action="Delete" asp-route-customerID="@customer.CustomerID">Delete</a>
                 </td>
             </tr>
         }

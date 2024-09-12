@@ -35,10 +35,7 @@ namespace CustomersUI.Controllers
                 // Log or handle API error
                 return View("Error", new ErrorViewModel { RequestId = "API Error" });
             }
-
-
         }
-
      
         public IActionResult Create()
         {
@@ -59,41 +56,50 @@ namespace CustomersUI.Controllers
             return View(customer); // Return the form if the customer creation fails
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int customerID)
-    {
-        var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
-        if (!response.IsSuccessStatusCode)
-        {
-            return View("Error", new ErrorViewModel { RequestId = "API Error" });
-        }
-        var customer = await response.Content.ReadFromJsonAsync<Customer>();
-
-        if (customer == null)
-            return NotFound();
-
-            return View(customer);
-        }
-
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Customer customer)
+        public async Task<IActionResult> Edit(int customerID)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var response = await _httpClient.PutAsJsonAsync($"{_urlAPI}/{customer.CustomerID}", customer);
-
-                if (response.IsSuccessStatusCode)
-                    return RedirectToAction("Index");
-                else
+                var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
+                if (!response.IsSuccessStatusCode)
                 {
-                    // Logging the error
-                    ModelState.AddModelError("", "Customer update failed, please try again.");
+                    return View("Error", new ErrorViewModel { RequestId = "API Error" });
                 }
-            }
+                var customer = await response.Content.ReadFromJsonAsync<Customer>();
 
-            return View(customer);
+                if (customer == null)
+                    return NotFound();
+
+                return View(customer);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (you can use a logging framework)
+                return View("Error", new ErrorViewModel { RequestId = ex.Message });
+            }
         }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(Customer customer)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var response = await _httpClient.PutAsJsonAsync($"{_urlAPI}/{customer.CustomerID}", customer);
+
+        //        if (response.IsSuccessStatusCode)
+        //            return RedirectToAction("Index");
+        //        else
+        //        {
+        //            Logging the error
+        //            ModelState.AddModelError("", "Customer update failed, please try again.");
+        //        }
+        //    }
+
+        //    return View(customer);
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Delete(int customerID)

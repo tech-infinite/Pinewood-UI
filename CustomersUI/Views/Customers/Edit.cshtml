@@ -1,32 +1,45 @@
-﻿@model Customer
+﻿@model CustomersUI.Models.Customer
+
+@{
+    ViewData["Title"] = "Edit Customer";
+}
 
 <h2>Edit Customer</h2>
 
-<form asp-action="Edit">
-    @Html.AntiForgeryToken()
+<form asp-action="Edit" method="post">
     <div class="form-group">
-        <label asp-for="Customer ID"></label>
-        <input asp-for="CustomerID" class="form-control" />
+        <label asp-for="CustomerID"></label>
+        <input asp-for="CustomerID" class="form-control" readonly />
     </div>
+
     <div class="form-group">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
+       
     </div>
+
     <div class="form-group">
         <label asp-for="Address"></label>
         <input asp-for="Address" class="form-control" />
+      
     </div>
-    <div class="form-group">
-        <label asp-for="Phone"></label>
-        <input asp-for="Phone" class="form-control" />
-    </div>
+
+
     <div class="form-group">
         <label asp-for="Email"></label>
         <input asp-for="Email" class="form-control" />
+      
     </div>
-    <br />
-    <div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+    <div class="form-group">
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" class="form-control" />
+      
     </div>
+
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+
     
