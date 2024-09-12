@@ -2,13 +2,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMvc().AddRazorRuntimeCompilation();
+//builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 
 builder.Services.AddHttpClient("CustomerAPI", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7093/api/Customers"); // Replace with your API's base URL
+    client.BaseAddress = new Uri("https://localhost:7093/api/Customers"); 
 });
 
 
@@ -20,7 +21,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

@@ -19,6 +19,7 @@ namespace CustomersUI.Controllers
 
         public List<Customer> Customers { get; set; } = new List<Customer>();
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var response = await _httpClient.GetAsync(_urlAPI);
@@ -38,11 +39,13 @@ namespace CustomersUI.Controllers
 
         }
 
+     
         public IActionResult Create()
         {
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Create(Customer customer)
         {
             if (ModelState.IsValid)
@@ -56,10 +59,15 @@ namespace CustomersUI.Controllers
             return View(customer); // Return the form if the customer creation fails
         }
 
-        [HttpPut]
+        [HttpGet]
         public async Task<IActionResult> Edit(int customerID)
         {
             var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
+            if (!response.IsSuccessStatusCode)
+            {
+                // Redirect to an error page
+                return View("Error", new ErrorViewModel { RequestId = "API Error" });
+            }
             var customer = await response.Content.ReadFromJsonAsync<Customer>();
 
             if (customer == null)
@@ -68,7 +76,8 @@ namespace CustomersUI.Controllers
             return View(customer);
         }
 
-        [HttpPut]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Customer customer)
         {
             if (ModelState.IsValid)
@@ -77,12 +86,17 @@ namespace CustomersUI.Controllers
 
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction("Index");
+                else
+                {
+                    // Logging the error
+                    ModelState.AddModelError("", "Customer update failed, please try again.");
+                }
             }
 
             return View(customer);
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Delete(int customerID)
         {
             var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
@@ -94,6 +108,7 @@ namespace CustomersUI.Controllers
             return View(customer);
         }
 
+        [HttpPost]
         public async Task<IActionResult> ConfirmDelete(int customerID)
         {
             var response = await _httpClient.DeleteAsync($"{_urlAPI}/{customerID}");
