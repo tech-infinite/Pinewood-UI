@@ -61,17 +61,16 @@ namespace CustomersUI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(int customerID)
+    {
+        var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
+        if (!response.IsSuccessStatusCode)
         {
-            var response = await _httpClient.GetAsync($"{_urlAPI}/{customerID}");
-            if (!response.IsSuccessStatusCode)
-            {
-                // Redirect to an error page
-                return View("Error", new ErrorViewModel { RequestId = "API Error" });
-            }
-            var customer = await response.Content.ReadFromJsonAsync<Customer>();
+            return View("Error", new ErrorViewModel { RequestId = "API Error" });
+        }
+        var customer = await response.Content.ReadFromJsonAsync<Customer>();
 
-            if (customer == null)
-                return NotFound();
+        if (customer == null)
+            return NotFound();
 
             return View(customer);
         }
