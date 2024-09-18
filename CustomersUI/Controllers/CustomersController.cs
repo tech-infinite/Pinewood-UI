@@ -81,25 +81,25 @@ namespace CustomersUI.Controllers
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(Customer customer)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var response = await _httpClient.PutAsJsonAsync($"{_urlAPI}/{customer.CustomerID}", customer);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _httpClient.PutAsJsonAsync($"{_urlAPI}/{customer.CustomerID}", customer);
 
-        //        if (response.IsSuccessStatusCode)
-        //            return RedirectToAction("Index");
-        //        else
-        //        {
-        //            Logging the error
-        //            ModelState.AddModelError("", "Customer update failed, please try again.");
-        //        }
-        //    }
+                if (response.IsSuccessStatusCode)
+                    return RedirectToAction("Index");
+                else
+                {
+                    //Logging the error
+                    ModelState.AddModelError("", "Customer update failed, please try again.");
+                }
+            }
 
-        //    return View(customer);
-        //}
+            return View(customer);
+        }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int customerID)

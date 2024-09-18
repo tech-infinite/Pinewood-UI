@@ -1,4 +1,4 @@
-﻿@* @model List<Customer>
+﻿@model List<Customer>
 
 <h2>Customer List</h2>
 
@@ -21,7 +21,7 @@
                 <td>@customer.Address</td>
                 <td>@customer.Email</td>
                 <td>@customer.Phone</td>
-            
+
 
                 <td>
                     <a asp-action="Edit" asp-route-customerID="@customer.CustomerID">Edit</a> |
@@ -33,4 +33,3 @@
 </table>
 
 <a asp-action="Create">Create New Customer</a>
- *@
